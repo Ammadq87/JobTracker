@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Job Application Tracker</title>
+</head>
+<body>
+    <input type="text" placeholder="Job URL/Link" id="input">
+    <button onclick="submit()" id="submitBtn">Submit</button>
+
+    <div>
+
+        <div style="display: flex;">
+            <input type="checkbox" id="applyFilterCheck">
+            <p>Apply Filter(s)</p>
+        </div>
+
+        <textarea rows="4" cols="50" id="filterInput" placeholder="Separate tags through "></textarea>
+        <p id="jobTitle"></p>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
