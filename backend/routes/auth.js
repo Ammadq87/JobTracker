@@ -19,10 +19,7 @@ router.post('/login', async (req, res) => {
         // Set session variable
         req.session.user = response.data
 
-        res.render(
-            'login',
-            {title: 'Job Trackr', response: response}
-        )
+        res.redirect('/home')
     } catch (e) {
         console.log(e)
         res.send('[Error] -- Could not SignUp')

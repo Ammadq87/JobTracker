@@ -19,21 +19,25 @@ app.use(session({
     saveUninitialized: false
 }));
 
-app.get('/', function(req, res) {
 
-    /**
-     * If session not availbe, redirect to login, else redirect to home
-     */
-
-    res.render(
-        'login',
-        {title: 'Job Trackr'}
-    )
-})
+function requireLogin(req, res, next) {
+    if (!req.session.user)
+        res.redirect('/auth/login')
+    else
+        next()
+}
 
 app.use('/auth', auth)
+app.use(requireLogin)
 
+app.get('/', (req, res) => {
+    res.redirect('/home')
+})
 
+app.get('/home', (req, res) => {
+    const Page = 'Hi, ' + req.session.user.FullName + '!'
+    res.render('home', {Page: Page, title: 'Trackr'})
+})
 
 app.listen(process.env.PORT , function(){
     console.log(`Listening on PORT ${process.env.PORT}`)
