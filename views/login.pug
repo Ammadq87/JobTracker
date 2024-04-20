@@ -1,0 +1,9 @@
+html
+    head
+        title= title
+    body
+        div#login
+            form(action="http://localhost:3000/user", method="post")
+                input(type="email", name="email", placeholder="Email", required)  
+                input(type="password", name="password", placeholder="Password", required)
+                button(type="submit") Submit
