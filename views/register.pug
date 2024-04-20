@@ -5,20 +5,24 @@ html
     
     body
         div.container.border.border-secondary-subtle.mt-3
-            form.container.d-flex.flex-column.p-3(action="http://localhost:3000/auth/login", method="post")
-                h1 Login
+            form.container.d-flex.flex-column.p-3(action="http://localhost:3000/auth/register", method="post")
+                h1 Trackr Register
                 
                 div.form-group
                     input(type="email", name="email", class="form-control", placeholder="Email", required)
                 div.form-group
                     input(type="password", name="password", class="form-control", placeholder="Password", required)
+                div.form-group
+                    input(type="password", name="cPassword", class="form-control", placeholder="Confirm Password", required)
+                div.form-group
+                    input(type="text", name="fullName", class="form-control", placeholder="Full Name", required)
                 
-                button.btn.btn-primary.mt-2.mb-2(type="submit") Login
-                a(href="/auth/register") Create Account?
+                button.btn.btn-primary.mt-2.mb-2(type="submit") Register
+                a(href="/auth/login") Already registered?
             
                 if !response
+
                 else if response.status === 200
                     p.text-success.m-auto= response.msg
                 else if response.status !== 200
                     p.text-danger.m-auto= response.msg        
-

@@ -24,7 +24,7 @@ async function login (email, password) {
         const passwordMatch = await bcrypt.compare(password, user[0].Password)
 
         if (!passwordMatch) return {status: 401, msg: 'Invalid email/password'}
-        return {status: 200, msg: 'Login Successful'}
+        return {status: 200, msg: 'Login Successful', data: user[0]}
     } catch (e) {
         console.log(e)
         return {status: 500, msg: 'Internal Server Error'}
