@@ -3,7 +3,8 @@ html
         title= title
     body
         div#login
-            form(action="http://localhost:3000/user", method="post")
+            form(action="http://localhost:3000/auth/login", method="post")
                 input(type="email", name="email", placeholder="Email", required)  
                 input(type="password", name="password", placeholder="Password", required)
                 button(type="submit") Submit
+        p= response  

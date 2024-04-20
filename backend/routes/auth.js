@@ -8,7 +8,10 @@ router.post('/login', async (req, res) => {
     const {email, password} = req.body    
     try {
         const response = await controller.login(email, password)
-        res.send(response)
+        res.render(
+            'login',
+            {title: 'Job Trackr', response: response.msg}
+        )
     } catch (e) {
         console.log(e)
         res.send('[Error] -- Could not SignUp')
