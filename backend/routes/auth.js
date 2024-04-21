@@ -7,7 +7,7 @@ const controller = require('../controllers/auth')
 router.get('/login', (req, res) => {
     res.render(
         'login', 
-        {title: 'Trackr'}
+        {title: 'Welcome'}
     )
 })
 
@@ -16,9 +16,8 @@ router.post('/login', async (req, res) => {
     try {
         const response = await controller.login(email, password)
         
-        // Set session variable
         req.session.user = response.data
-
+        console.log(`msg -- ${email} logged at ${new Date()}`)
         res.redirect('/home')
     } catch (e) {
         console.log(e)
@@ -29,7 +28,7 @@ router.post('/login', async (req, res) => {
 router.get('/register', (req, res) => {
     res.render(
         'register',
-        {title: 'Trackr'}
+        {title: 'Yippie!'}
     )
 })
 
@@ -40,6 +39,7 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(5)
         const hashedPassword = await bcrypt.hash(password, salt)
         const response = await controller.signUp(email, hashedPassword, fullName)
+        console.log(`msg -- ${email} regsitered at ${new Date()}`)
         res.render('register', {response: response})
     } catch (e) {
         console.log(e)

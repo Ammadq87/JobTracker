@@ -36,7 +36,7 @@ app.get('/', (req, res) => {
 
 app.get('/home', (req, res) => {
     const Page = 'Hi, ' + req.session.user.FullName + '!'
-    res.render('home', {Page: Page, title: 'Trackr'})
+    res.render('home', {Page: Page})
 })
 
 app.listen(process.env.PORT , function(){

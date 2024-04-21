@@ -1,11 +1,68 @@
 html
     head
-        title= title
+        title home
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-    
+        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+
     body
-        div#search.container
-            h1= Page
-            form(action="")
-                input(type="text", placeholder="Job link/url")
-                button Process          
+
+        div#navbar.d-flex.justify-content-between.border-bottom.py-2.align-items-center
+            div#logo.d-flex.justify-content-start.align-items-center
+                h4.mx-4.mb-0.font-italic trackr
+            div#actions.d-flex.justify-content-end.align-items-center
+                a.mx-4.text-secondary(href="") 📒 apps
+                span.text-secondary |
+                a.mx-4.text-secondary(href="") 📊 stats
+                span.text-secondary |
+                a.mx-4(href='#')
+                    span.d-inline-block.text-secondary.fa.fa-user-circle.fa-2x(aria-hidden='true')
+
+
+        div.d-flex.flex-column.align-items-center.mt-4 
+
+            //- Link processing
+            div#filter.d-block.align-items-center.border.p-3(style="width: 60%;")
+                h2.text-start ✏️ Start tracking! 
+
+                hr
+
+                p Add relevant tags that represent your desired job title or the type of job you're seeking. You can save these tag groups for future use, enabling you to apply different sets of tags as needed. Then, paste the job link and click 'Process', allowing you to effectively track your job search progress.
+
+                form(style="width: 100%; max-width: 100%;")
+                    div.form-group.d-block
+                        h5 Tags
+                        textarea#filters.p-1(name="tags", cols="100", rows="1", placeholder="Separate tags with commas (,)", required)
+
+                    div.form-group.d-block.align-items-center 
+                        label Save tags
+                        input(type="checkbox", style="height: 16px; width: 16px;")
+
+                    div.form-group.d-block
+                        h5 Process Link
+                        div.form-group.d-flex
+                            input(type="text", class="form-control", placeholder="Job link/url", required) 
+                            button.btn.btn-primary.font-weight-bold(type="submit") Process
+
+            br
+
+            //- applied jobs table
+            div.d-block.align-items-center.border.p-3.mt-4(style="width: 60%;")
+
+                h2.text-start 🎯 Your Applications 
+
+                hr
+
+                p View and modify your job applications.
+
+                div.d-block.justify-content-between
+                    h5 Search
+
+
+                    div#search.d-flex(style="width: 40%")
+                        input(type="text", class="form-control", placeholder="Enter job name", required) 
+                        button.btn.btn-primary(type="submit")
+                            span.d-inline-block.text-secondary.fa.fa-search.fa-md.text-light(aria-hidden='true')
+
+
+        
+
