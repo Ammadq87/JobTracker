@@ -19,7 +19,7 @@ async function signUp (email, password, fullName) {
 async function login (email, password) {
     try {
         const user = await auth.getUserByEmail(email)
-        if (!user) return {status: 401, msg: 'Invalid email/password'}
+        if (user.length === 0) return {status: 401, msg: 'Invalid email/password'}
 
         const passwordMatch = await bcrypt.compare(password, user[0].Password)
 

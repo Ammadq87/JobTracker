@@ -19,6 +19,8 @@ html
                 document.getElementById('man_btn').className = 'btn btn-' + (!manualEntry ? 'light' : 'primary') + ' font-weight-bold'
                 document.getElementById('auto_input').style = manualEntry ? 'display: none' : 'display: block'
                 document.getElementById('manual_input').style = !manualEntry ? 'display: none' : 'display: block'
+                document.getElementById('errors').style = manualEntry ? 'display: none' : 'display: block'
+                
             }
 
     body
@@ -97,8 +99,9 @@ html
                         
                 if errors.length > 0
                     form#errors(action="http://localhost:3000/application/manual", method="post")
-                        h5.text-danger Ooops! 
-                        p Please fill out the remaining missing information below. We couldn't find some information based on the 
+                        hr
+                        h5.text-danger 💔 Ooops! 
+                        p It's not you, it's us. Please fill out the remaining missing information below. We couldn't find some information based on the 
                             a(href=link) link.                        
                         div.d-flex
                             each err in errors
@@ -125,9 +128,9 @@ html
 
                 div.d-block.justify-content-between
                     h5 Search
-
-
                     div#search.d-flex(style="width: 40%")
                         input(type="text", class="form-control", placeholder="Enter job name", required) 
                         button.btn.btn-primary(type="submit")
                             span.d-inline-block.text-secondary.fa.fa-search.fa-md.text-light(aria-hidden='true')
+            
+            br

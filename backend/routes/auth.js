@@ -16,9 +16,14 @@ router.post('/login', async (req, res) => {
     try {
         const response = await controller.login(email, password)
         
-        req.session.user = response.data
-        console.log(`log -- ${email} logged at ${new Date()}`)
-        res.redirect('/home')
+        if (response.status === 401)
+            res.render('login', {response: response})
+        else {
+            req.session.user = response.data
+            console.log(`log -- ${email} logged at ${new Date()}`)
+            res.redirect('/home')
+        }
+
     } catch (e) {
         console.log(e)
         res.send('[Error] -- Could not SignUp')
