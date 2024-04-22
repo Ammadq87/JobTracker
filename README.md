@@ -1,0 +1,3 @@
+# About
+
+Simple job tracking application. Helps me view my stats between rejection and acceptance rates for a specific time period. A simple Excel sheet could've solved this? -- Good point...
