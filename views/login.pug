@@ -4,6 +4,13 @@ html
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
     
     body
+        
+        div#navbar.d-flex.justify-content-between.border-bottom.py-2.align-items-center
+            div#logo.d-flex.justify-content-start.align-items-center
+                h4.mx-4.mb-0.font-italic trackr
+            div#actions.d-flex.justify-content-end.align-items-center
+                a.mx-4(href="/auth/register") Register Here
+        
         div.container.border.border-secondary-subtle.mt-3
             form.container.d-flex.flex-column.p-3(action="http://localhost:3000/auth/login", method="post")
                 h1 Login

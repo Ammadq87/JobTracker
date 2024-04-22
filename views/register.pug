@@ -4,9 +4,16 @@ html
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
     
     body
+
+        div#navbar.d-flex.justify-content-between.border-bottom.py-2.align-items-center
+            div#logo.d-flex.justify-content-start.align-items-center
+                h4.mx-4.mb-0.font-italic trackr
+            div#actions.d-flex.justify-content-end.align-items-center
+                a.mx-4(href="/auth/login") Login Here
+
         div.container.border.border-secondary-subtle.mt-3
             form.container.d-flex.flex-column.p-3(action="http://localhost:3000/auth/register", method="post")
-                h1 Trackr Register
+                h1 Register
                 
                 div.form-group
                     input(type="email", name="email", class="form-control", placeholder="Email", required)

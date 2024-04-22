@@ -1,6 +1,17 @@
 
 function submit() {
+    let input = document.getElementById('input').value;
+    input = input.replace(/%2f/gi, ' ')
+    input = input.replace(/[^a-zA-Z]/g, ' '); // Replace any character that is not a letter with an empty string
+    let words = input.trim().split(' ')
+    words = words.filter((w) => {if (w !== '') return w})    
+    
+    console.log(words)
+}
 
+
+function submit1() {
+    // document.getElementById().style = ''
     let jobTitle = ''
 
     // Sample input: https://careers.veeva.com/job/15171949/software-engineer-java-toronto-ca/?lever-source=Linkedin

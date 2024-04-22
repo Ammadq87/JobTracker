@@ -9,6 +9,7 @@ const pug = require('pug')
 app.set('view engine', 'pug')
 
 const auth = require('./routes/auth')
+const application = require('./routes/application')
 
 // Middleware to parse incoming request bodies
 app.use(express.urlencoded({ extended: true }));
@@ -28,6 +29,7 @@ function requireLogin(req, res, next) {
 }
 
 app.use('/auth', auth)
+app.use('/application', application)
 app.use(requireLogin)
 
 app.get('/', (req, res) => {
@@ -35,8 +37,7 @@ app.get('/', (req, res) => {
 })
 
 app.get('/home', (req, res) => {
-    const Page = 'Hi, ' + req.session.user.FullName + '!'
-    res.render('home', {Page: Page})
+    res.render('home', {errors: [], msg: ''})
 })
 
 app.listen(process.env.PORT , function(){

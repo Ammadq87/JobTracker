@@ -4,6 +4,23 @@ html
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
 
+        script.
+
+            let manualEntry = true;
+
+            document.addEventListener("DOMContentLoaded", function() {
+                console.log('hi')
+                switchEntryMethods()
+            })
+
+            function switchEntryMethods() {
+                manualEntry = !manualEntry
+                document.getElementById('auto_btn').className = 'btn btn-' + (manualEntry ? 'light' : 'primary') + ' font-weight-bold'
+                document.getElementById('man_btn').className = 'btn btn-' + (!manualEntry ? 'light' : 'primary') + ' font-weight-bold'
+                document.getElementById('auto_input').style = manualEntry ? 'display: none' : 'display: block'
+                document.getElementById('manual_input').style = !manualEntry ? 'display: none' : 'display: block'
+            }
+
     body
 
         div#navbar.d-flex.justify-content-between.border-bottom.py-2.align-items-center
@@ -20,28 +37,80 @@ html
 
         div.d-flex.flex-column.align-items-center.mt-4 
 
+
             //- Link processing
             div#filter.d-block.align-items-center.border.p-3(style="width: 60%;")
                 h2.text-start ✏️ Start tracking! 
 
+                br
+                div.d-flex(style="width: 100%")
+                    button.btn.btn-primary.font-weight-bold#auto_btn(onclick="switchEntryMethods()") Automatic
+                    button.btn.btn-light.font-weight-bold#man_btn(onclick="switchEntryMethods()") Manual
+
                 hr
 
-                p Add relevant tags that represent your desired job title or the type of job you're seeking. You can save these tag groups for future use, enabling you to apply different sets of tags as needed. Then, paste the job link and click 'Process', allowing you to effectively track your job search progress.
+                div#manual_input
+                    p Add the relevant job application information to keep track of your progress 
 
-                form(style="width: 100%; max-width: 100%;")
-                    div.form-group.d-block
-                        h5 Tags
-                        textarea#filters.p-1(name="tags", cols="100", rows="1", placeholder="Separate tags with commas (,)", required)
+                    form(style="width: 100%; max-width: 100%;", action="http://localhost:3000/application/manual", method="post")
+                        div.d-flex.justify-content-between
+                        
+                            div.d-block.justify-content-center.align-items-center
+                                label.d-block(for="Role") Role
+                                    span.text-danger *
+                                input(type="text", required)
 
-                    div.form-group.d-block.align-items-center 
-                        label Save tags
-                        input(type="checkbox", style="height: 16px; width: 16px;")
+                            div.d-block.justify-content-center.align-items-center
+                                label.d-block(for="Company") Company
+                                    span.text-danger *
+                                input(type="text", required)
 
-                    div.form-group.d-block
-                        h5 Process Link
-                        div.form-group.d-flex
-                            input(type="text", class="form-control", placeholder="Job link/url", required) 
-                            button.btn.btn-primary.font-weight-bold(type="submit") Process
+                            div.d-block.justify-content-center.align-items-center
+                                label.d-block(for="DateApplied") Date Applied
+                                input(type="date")
+
+                            //- Allow user to set a default country for application? just so they don't have to fill it out
+                            div.d-block.justify-content-center.align-items-center
+                                label.d-block(for="Location") Location
+                                input(type="text")
+                        
+                        br
+                        button.btn.btn-primary.font-weight-bold Track
+
+                div#auto_input 
+                    p Add relevant tags that represent your desired job title or the type of job you're seeking. You can save these tag groups for future use, enabling you to apply different sets of tags as needed. Then, paste the job link and click 'Process', allowing you to effectively track your job search progress.
+
+                    form(style="width: 100%; max-width: 100%;", action="http://localhost:3000/application/tracker", method="post")
+                        div.form-group.d-block
+                            h5 Tags
+                            textarea#filters.p-1(name="tags", cols="100", rows="1", placeholder="Separate tags with commas (,)", required)
+
+                        div.form-group.d-block.align-items-center 
+                            label Save tags
+                            input(type="checkbox", style="height: 16px; width: 16px;")
+
+                        div.form-group.d-block
+                            h5 Process Link
+                            div.form-group.d-flex
+                                input(name="link", type="text", class="form-control", placeholder="Job link/url", required) 
+                                button.btn.btn-primary.font-weight-bold(type="submit") Track
+                        
+                if errors.length > 0
+                    form#errors(action="http://localhost:3000/application/manual", method="post")
+                        h5.text-danger Ooops! 
+                        p Please fill out the remaining missing information below. We couldn't find some information based on the 
+                            a(href=link) link.                        
+                        div.d-flex
+                            each err in errors
+                                div.mr-4
+                                    label.d-block(for=err)= err
+                                        span.text-danger *
+                                    input(type="text", required)
+                        br
+                        button.btn.btn-secondary Submit
+
+                if status === 200
+                    h6.text-success= msg
 
             br
 
@@ -62,7 +131,3 @@ html
                         input(type="text", class="form-control", placeholder="Enter job name", required) 
                         button.btn.btn-primary(type="submit")
                             span.d-inline-block.text-secondary.fa.fa-search.fa-md.text-light(aria-hidden='true')
-
-
-        
-

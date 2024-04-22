@@ -17,7 +17,7 @@ router.post('/login', async (req, res) => {
         const response = await controller.login(email, password)
         
         req.session.user = response.data
-        console.log(`msg -- ${email} logged at ${new Date()}`)
+        console.log(`log -- ${email} logged at ${new Date()}`)
         res.redirect('/home')
     } catch (e) {
         console.log(e)
@@ -39,7 +39,7 @@ router.post('/register', async (req, res) => {
         const salt = await bcrypt.genSalt(5)
         const hashedPassword = await bcrypt.hash(password, salt)
         const response = await controller.signUp(email, hashedPassword, fullName)
-        console.log(`msg -- ${email} regsitered at ${new Date()}`)
+        console.log(`log -- ${email} regsitered at ${new Date()}`)
         res.render('register', {response: response})
     } catch (e) {
         console.log(e)
