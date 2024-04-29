@@ -1,4 +1,4 @@
-mixin formInput(val, type, req)
+mixin formInput(val, type, req, defaultValue)
     - const displayVal = val.split('_').join(' ')
     div.form-group.d-flex
 
@@ -8,10 +8,13 @@ mixin formInput(val, type, req)
         else
             label(for=''+val style="width: 50%;")= displayVal
 
+        if defaultValue !== ''
+            input(id=val type=''+type name=val class="form-control" style="width: 50%;" required=req value=defaultValue)
+
         if type.toLowerCase() === 'date'
-            input(type=''+type name=val class="form-control" style="width: 50%;" required=req, value=`${new Date().toISOString().split('T')[0]}`)
+            input(id=val type=''+type name=val class="form-control" style="width: 50%;" required=req value=`${new Date().toISOString().split('T')[0]}`)
         else
-            input(type=''+type name=val class="form-control" style="width: 50%;" required=req)
+            input(id=val type=''+type name=val class="form-control" style="width: 50%;" required=req)
 
 html(lang="en")
   head
@@ -22,8 +25,20 @@ html(lang="en")
     link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
     link(rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css")
   
+    script.
+
+        function editClick(job) {
+            document.getElementById('DateAppliedEdit').value = new Date(''+job['DateApplied']).toISOString().split('T')[0]
+
+            for (let field in job) {
+                if (job.hasOwnProperty(field) && document.getElementById(''+field) != null) {
+                    document.getElementById(''+field+'Edit').value = job[field]
+                    console.log(field)
+                }
+            }
+        }
+
   body.d-flex
-    //- Include your sidebar content here
     include layouts/sidebar
     
     div.d-flex.flex-column.align-items-center(style="width: 100%; height: 100vh;") 
@@ -48,39 +63,19 @@ html(lang="en")
                         th Status 
                         th Date Applied
                 tbody
-                    tr 
-                        td Full-stack Developer 
-                        td BMO 
-                        td Rejected 
-                        td
-                            div.d-flex.justify-content-between
-                                p 2023-06-22
-                                div.d-flex
-                                    button.btn.btn-light ✏️
-                                    button.btn.btn-light ❌
-                            
-                    tr 
-                        td Software Intern 
-                        td Dayforce 
-                        td Applied 
-                        td 
-                            div.d-flex.justify-content-between
-                                p 2023-06-21
 
-                                div.d-flex
-                                    button.btn.btn-light ✏️
-                                    button.btn.btn-light ❌
-                    tr 
-                        td IT Solutions Intern
-                        td Intelliware 
-                        td Interview 
-                        td 
-                            div.d-flex.justify-content-between
-                                p 2023-05-03
-
-                                div.d-flex
-                                    button.btn.btn-light ✏️
-                                    button.btn.btn-light ❌                            
+                    if jobs
+                        each job, i in jobs 
+                            tr 
+                                td= job.Role 
+                                td= job.Company 
+                                td= job.Status 
+                                td 
+                                    div.d-flex.justify-content-between
+                                        p= job.DateApplied.toISOString().split('T')[0]
+                                        div.d-flex
+                                            button.btn.btn-light(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
+                                            button.btn.btn-light ❌
 
         //- New Application modal 
         .modal.fade(id="NewAppModalForm", tabindex="-1", role="dialog", aria-labelledby="NewAppModlLbl", aria-hidden="true", data-backdrop="static")
@@ -93,16 +88,49 @@ html(lang="en")
               .modal-body
                 p Please enter the required information below about your latest job application.
 
-                form(action="http://localhost:3000/application/manual" method="post")
+                form(action="http://localhost:3000/tracking/manual" method="post")
                     hr
                     br
-                    +formInput('Company', 'text', true)
-                    +formInput('Role', 'text', true)
-                    +formInput('Date_Applied', 'date', false)
+                    +formInput('Company', 'text', true, '')
+                    +formInput('Role', 'text', true, '')
+                    +formInput('Date_Applied', 'date', false, '')
 
                     hr
                     button.btn.btn-primary.font-weight-bold(type="submit") Add
         
+        //- Job Edit modal 
+        .modal.fade(id="JobEditModal", tabindex="-1", role="dialog", aria-labelledby="JobEditModalLbl", aria-hidden="true", data-backdrop="static")
+          .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content
+              .modal-header
+                h5.modal-title#JobEditModalLbl Job Edit
+                button.close(type="button", data-dismiss="modal", aria-label="Close")
+                  span(aria-hidden="true") &times;
+              .modal-body
+                p Edit
+
+                form(action="" method="put")
+                    hr
+                    br
+                    
+                    div.form-group.d-flex
+                        span(style="color: red;") *
+                        label(for="Company" style="width: 50%") Company
+                        input#CompanyEdit(type="text" class="form-control" style="width: 50%;" required)
+                    div.form-group.d-flex
+                        span(style="color: red;") *
+                        label(for="Role" style="width: 50%") Role
+                        input#RoleEdit(type="text" class="form-control" style="width: 50%;" required)
+                    div.form-group.d-flex
+                        label(for="DateApplied" style="width: 50%") Date Applied
+                        input#DateAppliedEdit(type="date" class="form-control" style="width: 50%;")
+
+                    hr
+                    div.d-flex.flex-row.justify-content-end
+                        button.btn.btn-light.font-weight-bold(data-dismiss="modal" style="width: 75px") Cancel
+                        button.btn.btn-primary.font-weight-bold.ml-2(type="submit" style="width: 75px") Save
+
+
         div(style="height: 100%")
         
         

@@ -15,7 +15,15 @@ async function manualJobApplication(job, uid) {
     } catch (e) {
         console.error(`Error: ${e}`)
     }
+}
 
+async function getAllJobs(UserID) {
+    try {
+        const result = await db.getAllJobs(UserID)
+        return {status: 200, data: result}
+    } catch (e) {
+        console.error(e)
+    }
 }
 
 
@@ -131,4 +139,4 @@ function sanitizeTags(tags) {
     return input;
 }
 
-module.exports = {manualJobApplication}
+module.exports = {manualJobApplication, getAllJobs}

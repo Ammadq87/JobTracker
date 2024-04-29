@@ -30,11 +30,11 @@ async function requireLogin(req, res, next) {
 }
 
 app.use('/auth', auth);
-app.use('/application', application);
+app.use('/tracking', application);
 app.use(requireLogin); // applies middleware function to all routes  
 
 app.get('/', (req, res) => {
-    res.redirect('/index');
+    res.render('index');
 });
 
 // Handle favicon requests
@@ -42,31 +42,6 @@ app.get('/favicon.ico', (req, res) => {
     res.status(204).end(); // Return empty response (No Content)
 });
 
-app.get('/:href', (req, res) => {
-    const href = req.params.href;
-    const pageObj = {};
-
-    console.log(`log -- on ${href}`);
-
-    if (!href || href === 'index') {
-        pageObj['errors'] = [];
-        pageObj['msg'] = `Welcome back`;
-        res.render('index', pageObj);
-        return;
-    } else if (href === 'feed') {
-        // Handle feed logic
-    } else if (href === 'stats') {
-        // Handle stats logic
-    } else if (href === 'tracking') {
-        pageObj['errors'] = [];
-        pageObj['msg'] = '';
-    } else if (href === 'docs') {
-        // Handle docs logic
-    } else if (href === 'profile') {
-        // Handle profile logic
-    }
-    res.render(href, { pageObj });
-});
 
 app.listen(process.env.PORT , function(){
     console.log(`Listening on PORT ${process.env.PORT}`);

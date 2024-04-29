@@ -24,4 +24,25 @@ async function addJobApplication(job, uid) {
     });
 }
 
-module.exports = {addJobApplication}
+async function getAllJobs(uid) {
+    return new Promise((resolve, reject) => {
+        const query = `
+        select JobID, UserID, Role, Company, DateApplied, Location, StatusID,
+case
+	when StatusID = 0 then 'Applied'
+    when StatusID = 1 then 'Interview'
+    when StatusID = 2 then 'Offer'
+    when StatusID = 3 then 'Accepted'
+    else 'Rejected'
+end as Status from Job j WHERE j.UserID = ?`
+        connection.query(query, [uid], (error, results) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(results);
+        });
+    });
+}
+
+module.exports = {addJobApplication, getAllJobs}

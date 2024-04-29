@@ -22,7 +22,7 @@ router.post('/login', async (req, res) => {
             req.session.user = response.data
             console.log(`log -- ${email} logged at ${new Date()}`);
             console.log(`log -- session id: ${req.session.id}`);
-            res.redirect('/index');
+            res.redirect('/')
         }
     } catch (e) {
         console.error(e);
