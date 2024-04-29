@@ -18,10 +18,12 @@ create table Status (
 
 create table Job (
 	JobID varchar(36) primary key,
+    UserID varchar(36) not null,
     Role varchar(255),
     Company varchar(255),
     DateApplied date,
     Location varchar(255),
     StatusID int not null,
-    foreign key (StatusID) references Status(StatusID)
+    foreign key (StatusID) references Status(StatusID),
+    foreign key (UserID) references User(UserID)
 );

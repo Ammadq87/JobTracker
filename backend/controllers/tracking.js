@@ -1,3 +1,31 @@
+const db = require('../database/tracking')
+
+/**
+ * 
+ * @param {JSON} job 
+ * @param {string} uid
+ */
+async function manualJobApplication(job, uid) {
+    try {
+        job['Company'] = job['Company'].trim()
+        job['Role'] = job['Role'].trim()
+        // ToDo -- clean other fields like location 
+    
+        await db.addJobApplication(job, uid)
+    } catch (e) {
+        console.error(`Error: ${e}`)
+    }
+
+}
+
+
+
+
+
+
+
+
+
 
 /**
  * 
@@ -103,4 +131,4 @@ function sanitizeTags(tags) {
     return input;
 }
 
-module.exports = {getJobInfo}
+module.exports = {manualJobApplication}

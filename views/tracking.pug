@@ -1,0 +1,118 @@
+mixin formInput(val, type, req)
+    - const displayVal = val.split('_').join(' ')
+    div.form-group.d-flex
+
+        if req
+            span(style="color: red;") *
+            label(for=''+val style="width: 50%;")= displayVal
+        else
+            label(for=''+val style="width: 50%;")= displayVal
+
+        if type.toLowerCase() === 'date'
+            input(type=''+type name=val class="form-control" style="width: 50%;" required=req, value=`${new Date().toISOString().split('T')[0]}`)
+        else
+            input(type=''+type name=val class="form-control" style="width: 50%;" required=req)
+
+html(lang="en")
+  head
+    meta(charset="UTF-8")
+    meta(name="viewport", content="width=device-width, initial-scale=1.0")
+    title Tracking
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+    link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    link(rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css")
+  
+  body.d-flex
+    //- Include your sidebar content here
+    include layouts/sidebar
+    
+    div.d-flex.flex-column.align-items-center(style="width: 100%; height: 100vh;") 
+
+        div.d-block.align-items-center.border.p-2.mt-4(style="width: 95%;") 
+            h2.text-start 🎯 Your Applications 
+            hr
+            div.d-block.my-4.p-2
+                h5 New Application
+                p Click below to add a job or a new contact 
+                div.d-flex.justify-content-start
+
+                    button.btn.btn-light.font-weight-bold.border(type="button", data-toggle="modal", data-target="#NewAppModalForm") New App +
+                    button.btn.btn-light.mx-4.font-weight-bold.border(style="width: 128px" disabled) Contact +
+            hr
+            br
+            table#applications.table.table-striped.my-4.p-2
+                thead 
+                    tr
+                        th Role 
+                        th Company 
+                        th Status 
+                        th Date Applied
+                tbody
+                    tr 
+                        td Full-stack Developer 
+                        td BMO 
+                        td Rejected 
+                        td
+                            div.d-flex.justify-content-between
+                                p 2023-06-22
+                                div.d-flex
+                                    button.btn.btn-light ✏️
+                                    button.btn.btn-light ❌
+                            
+                    tr 
+                        td Software Intern 
+                        td Dayforce 
+                        td Applied 
+                        td 
+                            div.d-flex.justify-content-between
+                                p 2023-06-21
+
+                                div.d-flex
+                                    button.btn.btn-light ✏️
+                                    button.btn.btn-light ❌
+                    tr 
+                        td IT Solutions Intern
+                        td Intelliware 
+                        td Interview 
+                        td 
+                            div.d-flex.justify-content-between
+                                p 2023-05-03
+
+                                div.d-flex
+                                    button.btn.btn-light ✏️
+                                    button.btn.btn-light ❌                            
+
+        //- New Application modal 
+        .modal.fade(id="NewAppModalForm", tabindex="-1", role="dialog", aria-labelledby="NewAppModlLbl", aria-hidden="true", data-backdrop="static")
+          .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content
+              .modal-header
+                h5.modal-title#NewAppModlLbl ✨New Job Application✨
+                button.close(type="button", data-dismiss="modal", aria-label="Close")
+                  span(aria-hidden="true") &times;
+              .modal-body
+                p Please enter the required information below about your latest job application.
+
+                form(action="http://localhost:3000/application/manual" method="post")
+                    hr
+                    br
+                    +formInput('Company', 'text', true)
+                    +formInput('Role', 'text', true)
+                    +formInput('Date_Applied', 'date', false)
+
+                    hr
+                    button.btn.btn-primary.font-weight-bold(type="submit") Add
+        
+        div(style="height: 100%")
+        
+        
+  //- jQuery
+  script(src="https://code.jquery.com/jquery-3.6.0.min.js")
+  //- Bootstrap JavaScript bundle
+  script(src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.bundle.min.js")
+  script(src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.min.js")
+  script(src="https://cdn.datatables.net/1.10.24/js/dataTables.bootstrap4.min.js")
+  script.
+    $(document).ready(function() {
+        $('#applications').DataTable();
+    });

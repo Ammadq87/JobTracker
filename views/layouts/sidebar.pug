@@ -1,0 +1,22 @@
+mixin custom_link(txt)
+    a.mx-4.text-secondary.my-2(href=txt.substring(2), style="font-weight: 400;")= txt
+
+div#navbar.d-flex.flex-column.border-right(style="width: 200px;")  
+
+    h2.my-4.mx-4.font-italic trackr
+
+    div#links.d-flex.flex-column.align-items-center(style="width: 100%;")
+
+        div.sep1.d-flex.flex-column.justify-content-start.align-items-start.py-2.border-top(style="width: 100%;")
+            +custom_link('🏠 feed')
+            +custom_link('📊 stats')
+            +custom_link('📒 tracking')
+    
+        div.sep2.d-flex.flex-column.justify-content-start.align-items-start.py-2.border-top.border-bottom(style="width: 100%;")
+            +custom_link('📁 docs')
+            +custom_link('👾 profile')
+
+    div(style="height: 100%;")
+
+    div#actions.py-2.d-flex.border-top(style="width: 100%;")
+        +custom_link('✖️ sign-out')
