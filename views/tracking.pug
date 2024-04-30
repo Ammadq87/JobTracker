@@ -28,7 +28,6 @@ html(lang="en")
     script.
 
         function editClick(job) {
-            console.log(job)
             document.getElementById('DateAppliedEdit').value = new Date(''+job['DateApplied']).toISOString().split('T')[0]
             document.getElementById('JobIdEdit').value = job['JobID']
             console.log(document.getElementById('JobIdEdit').value)

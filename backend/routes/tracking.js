@@ -7,21 +7,13 @@ const applicationController = require('../controllers/tracking')
 router.get('/', async (req, res) => {
     const uid = req.session?.user?.UserID
     const jobs = await getAllJobs(uid)
-    console.log(jobs)
     res.render('tracking', {jobs: jobs})
 })
 
 router.post('/edit', async (req, res) => {
-    await applicationController.editJobApplication(req.body)
     const uid = req.session?.user?.UserID
-    let jobs = await redis.get(`Jobs:uID:${uid}`)
-    if (jobs) {
-        console.log('log == on edit : cache hit')
-        jobs = JSON.parse(jobs)
-        
-    }
-
-    // const jobs = await getAllJobs(uid)
+    await applicationController.editJobApplication(req.body, uid)
+    const jobs = await getAllJobs(uid)
     res.render('tracking', {jobs: jobs})
 })
 

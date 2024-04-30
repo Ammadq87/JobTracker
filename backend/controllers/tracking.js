@@ -35,9 +35,23 @@ async function manualJobApplication(job, uid) {
     }
 }
 
-async function editJobApplication(job) {
+async function editJobApplication(job, uid) {
     try {
+        // Update db
         await db.editJobApplication(job)
+        
+        // Update cache
+        const jobs = await getAllJobsFromCache(uid)
+        for (let i=0; i<jobs.length; i++) {
+            if (job.JobID === jobs[i].JobID) {
+                jobs[i].Company = job.Company
+                jobs[i].Role = job.Role
+                jobs[i].DateApplied = job.DateApplied
+                break;
+            }
+        }
+
+        redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
     } catch (e) {
         console.error(e)
     }
@@ -61,7 +75,7 @@ async function getAllJobsFromCache(uid) {
 
     if (!jobs) {
         console.log(`log == on get all jobs : cache miss`)
-        const result = await applicationController.getAllJobs(uid)
+        const result = await getAllJobs(uid)
         jobs = result ? result.data : []
         redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
     } else {
