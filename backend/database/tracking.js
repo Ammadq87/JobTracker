@@ -11,15 +11,50 @@ const connection = mysql.createConnection({
 
 async function addJobApplication(job, uid) {
     return new Promise((resolve, reject) => {
-        const query = `INSERT INTO Job VALUES (uuid(), ?, ?, ?, ?, ?, ?)`
+        const query = `INSERT INTO Job VALUES (?, ?, ?, ?, ?, ?, ?)`
         connection.query(query, [
-            uid, job['Role'], job['Company'], job['Date_Applied'], job['Location'], 0  
+            job['JobID'], uid, job['Role'], job['Company'], job['Date_Applied'], job['Location'], 0  
         ], (error) => {
             if (error) {
                 reject(error);
                 return;
             }
             resolve();
+        });
+    });
+}
+
+async function editJobApplication(job) {
+    return new Promise((resolve, reject) => {
+        const query = `UPDATE Job SET Company=?, DateApplied=?, Role=? WHERE JobID=?`
+        connection.query(query, [job['Company'], job['DateApplied'], job['Role'], job['JobID']], 
+            (error) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve();
+        });
+    });
+}
+
+async function getJobById(jobId) {
+    return new Promise((resolve, reject) => {
+        const query = `
+        select JobID, UserID, Role, Company, DateApplied, Location, StatusID,
+case
+	when StatusID = 0 then 'Applied'
+    when StatusID = 1 then 'Interview'
+    when StatusID = 2 then 'Offer'
+    when StatusID = 3 then 'Accepted'
+    else 'Rejected'
+end as Status from Job j WHERE j.jobID = ?`
+        connection.query(query, [jobId], (error, results) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve(results);
         });
     });
 }
@@ -45,4 +80,4 @@ end as Status from Job j WHERE j.UserID = ?`
     });
 }
 
-module.exports = {addJobApplication, getAllJobs}
+module.exports = {addJobApplication, getAllJobs, editJobApplication}

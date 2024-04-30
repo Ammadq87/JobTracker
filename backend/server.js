@@ -12,7 +12,6 @@ app.set('view engine', 'pug');
 const auth = require('./routes/auth');
 const application = require('./routes/tracking');
 
-// Middleware to parse incoming request bodies
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
@@ -31,17 +30,18 @@ async function requireLogin(req, res, next) {
 
 app.use('/auth', auth);
 app.use('/tracking', application);
-app.use(requireLogin); // applies middleware function to all routes  
 
 app.get('/', (req, res) => {
     res.render('index');
 });
 
+// Apply requireLogin middleware to all routes
+app.use(requireLogin);
+
 // Handle favicon requests
 app.get('/favicon.ico', (req, res) => {
     res.status(204).end(); // Return empty response (No Content)
 });
-
 
 app.listen(process.env.PORT , function(){
     console.log(`Listening on PORT ${process.env.PORT}`);

@@ -1,4 +1,6 @@
 const db = require('../database/tracking')
+const redis = require('../lib/redis')
+const uuid = require('uuid')
 
 /**
  * 
@@ -7,13 +9,37 @@ const db = require('../database/tracking')
  */
 async function manualJobApplication(job, uid) {
     try {
+        // Clean fields
         job['Company'] = job['Company'].trim()
         job['Role'] = job['Role'].trim()
         // ToDo -- clean other fields like location 
-    
+
+        // Update Job object
+        const jobId = uuid.v4()
+        job['JobID'] = jobId
+        job['UserID'] = uid 
+        job['Location'] = null
+        job['StatusID'] = 0
+        job['Status'] = 'Applied'
+        job['DateApplied'] = new Date()
+
+        // Add to db
         await db.addJobApplication(job, uid)
+
+        // update cache with new job
+        const jobs = await getAllJobsFromCache(uid)
+        jobs.push(job)
+        redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
     } catch (e) {
         console.error(`Error: ${e}`)
+    }
+}
+
+async function editJobApplication(job) {
+    try {
+        await db.editJobApplication(job)
+    } catch (e) {
+        console.error(e)
     }
 }
 
@@ -26,14 +52,25 @@ async function getAllJobs(UserID) {
     }
 }
 
+/**
+ * gets all jobs based on userID
+ * @returns array of JSON of jobs
+ */
+async function getAllJobsFromCache(uid) {
+    let jobs = await redis.get(`Jobs:uID:${uid}`)
 
+    if (!jobs) {
+        console.log(`log == on get all jobs : cache miss`)
+        const result = await applicationController.getAllJobs(uid)
+        jobs = result ? result.data : []
+        redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
+    } else {
+        console.log(`log == on get all jobs : cache hit`)
+        jobs = JSON.parse(jobs)
+    }
 
-
-
-
-
-
-
+    return jobs
+}
 
 /**
  * 
@@ -139,4 +176,4 @@ function sanitizeTags(tags) {
     return input;
 }
 
-module.exports = {manualJobApplication, getAllJobs}
+module.exports = {manualJobApplication, getAllJobs, editJobApplication}

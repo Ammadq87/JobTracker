@@ -28,12 +28,13 @@ html(lang="en")
     script.
 
         function editClick(job) {
+            console.log(job)
             document.getElementById('DateAppliedEdit').value = new Date(''+job['DateApplied']).toISOString().split('T')[0]
-
+            document.getElementById('JobIdEdit').value = job['JobID']
+            console.log(document.getElementById('JobIdEdit').value)
             for (let field in job) {
                 if (job.hasOwnProperty(field) && document.getElementById(''+field) != null) {
                     document.getElementById(''+field+'Edit').value = job[field]
-                    console.log(field)
                 }
             }
         }
@@ -72,10 +73,13 @@ html(lang="en")
                                 td= job.Status 
                                 td 
                                     div.d-flex.justify-content-between
-                                        p= job.DateApplied.toISOString().split('T')[0]
-                                        div.d-flex
-                                            button.btn.btn-light(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
-                                            button.btn.btn-light ❌
+                                        if job.DateApplied 
+                                            p= `${new Date(job.DateApplied).toISOString().split('T')[0]}`
+                                            div.d-flex
+                                                button.btn.btn-light(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
+                                                button.btn.btn-light ❌
+
+        br
 
         //- New Application modal 
         .modal.fade(id="NewAppModalForm", tabindex="-1", role="dialog", aria-labelledby="NewAppModlLbl", aria-hidden="true", data-backdrop="static")
@@ -109,21 +113,24 @@ html(lang="en")
               .modal-body
                 p Edit
 
-                form(action="" method="put")
+                form(action="http://localhost:3000/tracking/edit" method="post")
                     hr
                     br
                     
+                    div.d-none
+                        label(for="JobID" style="width: 50%") JobID
+                        input#JobIdEdit(name="JobID" type="text" class="form-control" style="width: 50%;")
                     div.form-group.d-flex
                         span(style="color: red;") *
                         label(for="Company" style="width: 50%") Company
-                        input#CompanyEdit(type="text" class="form-control" style="width: 50%;" required)
+                        input#CompanyEdit(name="Company" type="text" class="form-control" style="width: 50%;" required)
                     div.form-group.d-flex
                         span(style="color: red;") *
                         label(for="Role" style="width: 50%") Role
-                        input#RoleEdit(type="text" class="form-control" style="width: 50%;" required)
+                        input#RoleEdit(name="Role" type="text" class="form-control" style="width: 50%;" required)
                     div.form-group.d-flex
                         label(for="DateApplied" style="width: 50%") Date Applied
-                        input#DateAppliedEdit(type="date" class="form-control" style="width: 50%;")
+                        input#DateAppliedEdit(name="DateApplied" type="date" class="form-control" style="width: 50%;")
 
                     hr
                     div.d-flex.flex-row.justify-content-end
