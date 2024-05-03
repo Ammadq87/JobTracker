@@ -7,12 +7,23 @@ class Job {
 
     setStatus(StatusID) {
         switch (StatusID) {
-            case 0: return 'Applied'
-            case 1: return 'Interview'
-            case 2: return 'Offer'
-            case 3: return 'Accepted'
-            case 4: return 'Rejected'
-            case 4: return 'Declined'
+            case 0: this.Status = 'Applied'; break;
+            case 1: this.Status = 'Interview'; break;
+            case 2: this.Status = 'Offer'; break;
+            case 3: this.Status = 'Accepted'; break;
+            case 4: this.Status = 'Rejected'; break;
+            case 5: this.Status = 'Declined'; break;
+        }
+    }
+
+    getStatusIdFromDesc(desc) {
+        switch (desc) {
+            case 'Applied': return 0
+            case 'Interview': return 1 
+            case 'Offer': return 2
+            case 'Accepted': return 3
+            case 'Rejected': return 4
+            case 'Declined': return 5
         }
     }
 

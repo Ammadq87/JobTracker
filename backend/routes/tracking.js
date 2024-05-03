@@ -12,11 +12,19 @@ router.get('/', async (req, res) => {
 
 router.post('/edit', async (req, res) => {
     const uid = req.session?.user?.UserID
+    console.log(JSON.stringify(req.body))
     await applicationController.editJobApplication(req.body, uid)
     const jobs = await getAllJobs(uid)
     res.render('tracking', {jobs: jobs})
 })
 
+router.post('/delete/:jobID', async (req, res) => {
+    const jobID = req.params.jobID
+    const uid = req.session?.user?.UserID
+    await applicationController.deleteJobById(jobID, uid)
+    const jobs = await getAllJobs(uid)
+    res.render('tracking', {jobs: jobs})
+})
 
 router.post('/manual', async (req, res) => {
     try {

@@ -1,4 +1,5 @@
-const mysql = require('mysql')
+const mysql = require('mysql');
+const Job = require('../../models/job');
 
 require('dotenv').config()
 
@@ -25,9 +26,10 @@ async function addJobApplication(job, uid) {
 }
 
 async function editJobApplication(job) {
+
     return new Promise((resolve, reject) => {
-        const query = `UPDATE Job SET Company=?, DateApplied=?, Role=? WHERE JobID=?`
-        connection.query(query, [job['Company'], job['DateApplied'], job['Role'], job['JobID']], 
+        const query = `UPDATE Job SET Company=?, DateApplied=?, Role=?, StatusID=? WHERE JobID=?`
+        connection.query(query, [job['Company'], job['DateApplied'], job['Role'], parseInt(job['StatusID']), job['JobID']], 
             (error) => {
             if (error) {
                 reject(error);
@@ -80,4 +82,17 @@ end as Status from Job j WHERE j.UserID = ?`
     });
 }
 
-module.exports = {addJobApplication, getAllJobs, editJobApplication}
+async function deleteJobById(jobID) {
+    return new Promise((resolve, reject) => {
+        const query = `delete from Job where JobID = ?`
+        connection.query(query, [jobID], (error) => {
+            if (error) {
+                reject(error);
+                return;
+            }
+            resolve();
+        });
+    });
+}
+
+module.exports = {addJobApplication, getAllJobs, editJobApplication, deleteJobById}

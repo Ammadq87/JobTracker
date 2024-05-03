@@ -27,14 +27,48 @@ html(lang="en")
   
     script.
 
+
+        function addStatusValues(defaultText) {
+            const StatusSelect = document.getElementById("StatusSelect")
+            const CurrentStatusOption = document.getElementById("CurrentStatus")
+            CurrentStatusOption.value = defaultText 
+            CurrentStatusOption.text = defaultText
+
+            const statuses = ['Applied', 'Interview', 'Offer', 'Accepted', 'Rejected']
+
+            statuses.forEach((s, i) => {
+                if (s !== defaultText) {
+                    const option = document.createElement("option")
+                    option.value = i
+                    option.text = s
+                    StatusSelect.append(option)
+                }
+            })
+        }
+
         function editClick(job) {
+            addStatusValues(job['Status'])
             document.getElementById('DateAppliedEdit').value = new Date(''+job['DateApplied']).toISOString().split('T')[0]
             document.getElementById('JobIdEdit').value = job['JobID']
-            console.log(document.getElementById('JobIdEdit').value)
             for (let field in job) {
                 if (job.hasOwnProperty(field) && document.getElementById(''+field) != null) {
                     document.getElementById(''+field+'Edit').value = job[field]
                 }
+            }
+        }
+
+        async function deleteJob(job) {
+            try {
+                const jobID = job.JobID 
+                await fetch(`http://localhost:3000/tracking/delete/${jobID}`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'text/plain'
+                    }
+                })
+                location.reload()
+            } catch(e) {
+                console.log(e)
             }
         }
 
@@ -76,7 +110,7 @@ html(lang="en")
                                             p= `${new Date(job.DateApplied).toISOString().split('T')[0]}`
                                             div.d-flex
                                                 button.btn.btn-light(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
-                                                button.btn.btn-light ❌
+                                                button.btn.btn-light(type="button", onclick=`deleteJob(${JSON.stringify(job)})` ) ❌
 
         br
 
@@ -130,6 +164,10 @@ html(lang="en")
                     div.form-group.d-flex
                         label(for="DateApplied" style="width: 50%") Date Applied
                         input#DateAppliedEdit(name="DateApplied" type="date" class="form-control" style="width: 50%;")
+                    div.form-group.d-flex
+                        label(for="StatusID" style="width: 50%") Status
+                        select#StatusSelect.form-select.text-center.border(name="StatusID" aria-label="Application Status values" style="width: 50%")
+                            option#CurrentStatus(selected) 
 
                     hr
                     div.d-flex.flex-row.justify-content-end

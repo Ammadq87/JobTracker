@@ -1,3 +1,4 @@
+const Job = require('../../models/job')
 const db = require('../database/tracking')
 const redis = require('../lib/redis')
 const uuid = require('uuid')
@@ -39,7 +40,10 @@ async function editJobApplication(job, uid) {
     try {
         // Update db
         await db.editJobApplication(job)
-        
+
+        const x = new Job()
+        x.setStatus(parseInt(job.StatusID))
+
         // Update cache
         const jobs = await getAllJobsFromCache(uid)
         for (let i=0; i<jobs.length; i++) {
@@ -47,11 +51,43 @@ async function editJobApplication(job, uid) {
                 jobs[i].Company = job.Company
                 jobs[i].Role = job.Role
                 jobs[i].DateApplied = job.DateApplied
+                jobs[i].StatusID = job.StatusID
+                jobs[i]['Status'] = x.Status;
+                console.log(JSON.stringify(jobs[i]))
                 break;
             }
         }
 
+
         redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
+        
+    } catch (e) {
+        console.error(e)
+    }
+}
+
+async function deleteJobById(jobID, uID) {
+    try {
+        await db.deleteJobById(jobID)
+
+        // Update cache
+        let jobs = await getAllJobsFromCache(uID)
+
+        // Find job w ID
+        let deleteIndex = -1
+        for (let i=0; i<jobs.length; i++) {
+            if (jobID === jobs[i].JobID) {
+                deleteIndex = i
+                break;
+            }
+        }
+
+        if (deleteIndex === -1) { return }
+
+        // Remove job
+        const updatedJobs = [...jobs.slice(0, deleteIndex), ...jobs.slice(deleteIndex + 1)];
+        await redis.set(`Jobs:uID:${uID}`, new String(JSON.stringify(updatedJobs)))
+
     } catch (e) {
         console.error(e)
     }
@@ -190,4 +226,4 @@ function sanitizeTags(tags) {
     return input;
 }
 
-module.exports = {manualJobApplication, getAllJobs, editJobApplication}
+module.exports = {manualJobApplication, getAllJobs, editJobApplication, deleteJobById}
