@@ -29,12 +29,13 @@ html(lang="en")
 
 
         function addStatusValues(defaultText) {
+            const statuses = ['Applied', 'Interview', 'Offer', 'Accepted', 'Rejected', 'Declined']
+
             const StatusSelect = document.getElementById("StatusSelect")
             const CurrentStatusOption = document.getElementById("CurrentStatus")
-            CurrentStatusOption.value = defaultText 
+            CurrentStatusOption.value = statuses.indexOf(defaultText)
             CurrentStatusOption.text = defaultText
 
-            const statuses = ['Applied', 'Interview', 'Offer', 'Accepted', 'Rejected']
 
             statuses.forEach((s, i) => {
                 if (s !== defaultText) {

@@ -44,12 +44,12 @@ async function getAllJobs(uid) {
     let jobs = await redis.get(`Jobs:uID:${uid}`)
 
     if (!jobs) {
-        console.log(`log == on get all jobs : cache miss`)
+        // console.log(`log == on get all jobs : cache miss`)
         const result = await applicationController.getAllJobs(uid)
         jobs = result ? result.data : []
         redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
     } else {
-        console.log(`log == on get all jobs : cache hit`)
+        // console.log(`log == on get all jobs : cache hit`)
         jobs = JSON.parse(jobs)
     }
 

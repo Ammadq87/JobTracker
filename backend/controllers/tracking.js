@@ -15,13 +15,17 @@ async function manualJobApplication(job, uid) {
         job['Role'] = job['Role'].trim()
         // ToDo -- clean other fields like location 
 
+        const x = new Job()
+        x.setStatus(job['StatusID'])
+        x.setStatusID(job['StatusID'])
+
         // Update Job object
         const jobId = uuid.v4()
         job['JobID'] = jobId
         job['UserID'] = uid 
         job['Location'] = null
-        job['StatusID'] = 0
-        job['Status'] = 'Applied'
+        job['StatusID'] = x.StatusID
+        job['Status'] = x.Status
         job['DateApplied'] = new Date()
 
         // Add to db
@@ -110,12 +114,12 @@ async function getAllJobsFromCache(uid) {
     let jobs = await redis.get(`Jobs:uID:${uid}`)
 
     if (!jobs) {
-        console.log(`log == on get all jobs : cache miss`)
+        // console.log(`log == on get all jobs : cache miss`)
         const result = await getAllJobs(uid)
         jobs = result ? result.data : []
         redis.set(`Jobs:uID:${uid}`, new String(JSON.stringify(jobs)))
     } else {
-        console.log(`log == on get all jobs : cache hit`)
+        // console.log(`log == on get all jobs : cache hit`)
         jobs = JSON.parse(jobs)
     }
 

@@ -5,6 +5,10 @@ class Job {
         this.Status = this.setStatus(StatusID)
     }
 
+    setStatusID(id) {
+        this.StatusID = id
+    }
+
     setStatus(StatusID) {
         switch (StatusID) {
             case 0: this.Status = 'Applied'; break;

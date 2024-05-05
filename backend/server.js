@@ -21,22 +21,27 @@ app.use(session({
     saveUninitialized: false
 }));
 
+// Define the requireLogin middleware
 async function requireLogin(req, res, next) {
-    if (!req.session.user)
+    if (!req.session.user && req.path !== '/auth/login')
         res.redirect('/auth/login');
     else
         next();
 }
 
+// Apply requireLogin globally to all routes
+app.use(requireLogin);
+
+// Routes for authentication
 app.use('/auth', auth);
+
+// Routes for application
 app.use('/tracking', application);
 
+// Default route
 app.get('/', (req, res) => {
     res.render('index');
 });
-
-// Apply requireLogin middleware to all routes
-app.use(requireLogin);
 
 // Handle favicon requests
 app.get('/favicon.ico', (req, res) => {
