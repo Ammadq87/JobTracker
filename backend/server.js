@@ -11,6 +11,7 @@ app.set('view engine', 'pug');
 
 const auth = require('./routes/auth');
 const application = require('./routes/tracking');
+const stats = require('./routes/stats')
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -32,11 +33,9 @@ async function requireLogin(req, res, next) {
 // Apply requireLogin globally to all routes
 app.use(requireLogin);
 
-// Routes for authentication
 app.use('/auth', auth);
-
-// Routes for application
 app.use('/tracking', application);
+app.use('/stats', stats)
 
 // Default route
 app.get('/', (req, res) => {

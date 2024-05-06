@@ -3,12 +3,82 @@ html
         title Stats
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+        script(src="https://cdn.jsdelivr.net/npm/chart.js")
+
+        script.
+            let appStatsData;
+            
+            document.addEventListener('DOMContentLoaded', function() {
+                // Get the test variable embedded in the data attribute
+                appStatsData = JSON.parse(document.querySelector('[data-applicationStatsData]').getAttribute('data-applicationStatsData'));
+                // Now you can use the testData variable as needed
+                //- console.log(appStatsData);
+                // You can perform any further operations with testData here
+            });
+
+            function displayAppStats() {
+                console.log(appStatsData);
+                const labels = ['Applied', 'Interview', 'Offer', 'Accepted', 'Declined', 'Rejected'];
+                const datasets = []
+
+                for (let i = 0; i < labels.length; i++) {
+                    const label = labels[i]
+
+                    let found = false
+                    for (let j = 0; j < appStatsData.length; j++) {
+                        if (appStatsData[j].Status === label) {
+                            found = true;
+                            datasets.push(appStatsData[j].Total)
+                            break;
+                        }
+                    }
+
+                    if (!found) {
+                        datasets.push(0)
+                    }
+
+                }
+
+                const ctx = document.getElementById('applicationStatsChart');
+                new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: labels,
+                        datasets: [
+                            {
+                                label: 'Applications',
+                                data: datasets,
+                                borderWidth: 1
+                            }
+                        ]
+                    },
+                    options: {
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                stepSize: 1,
+                                min: 0
+                            }
+                        }
+                    }
+                });
+            }
 
     body.d-flex
 
         include layouts/sidebar
 
-        div.d-flex.flex-column.align-items-center.mt-4 
-            h1.font-bold Stats
+        div.d-flex.flex-column.align-items-center(style="width: 100%; height: 100vh;") 
 
-           
+            div.d-block.align-items-center.border.p-2.mt-4(style="width: 95%;") 
+                h2.text-start.px-2 📊 Application Stats 
+                hr
+
+                div.d-block.my-4.px-2(data-applicationStatsData=JSON.stringify(applicationStatsData))
+                    p Welcome to your job application statistics dashboard! Here, you can track and analyze the progress of your job applications to gain valuable insights into your job search journey. Understanding your application statistics can help you make informed decisions, optimize your approach, and stay motivated throughout your job search process. 
+                    button.btn.btn-light(onclick="displayAppStats()") App Stats
+                hr
+                br
+
+                canvas#applicationStatsChart.p-2.m-4
+            
