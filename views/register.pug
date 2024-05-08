@@ -28,8 +28,7 @@ html
                 a(href="/auth/login") Already registered?
             
                 if !response
-
                 else if response.status === 200
                     p.text-success.m-auto= response.msg
-                else if response.status !== 200
+                else 
                     p.text-danger.m-auto= response.msg        

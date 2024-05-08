@@ -24,9 +24,10 @@ async function manualJobApplication(job, uid) {
         job['JobID'] = jobId
         job['UserID'] = uid 
         job['Location'] = null
-        job['StatusID'] = x.StatusID
-        job['Status'] = x.Status
+        job['StatusID'] = 0
+        job['Status'] = 'Applied'
         job['DateApplied'] = new Date()
+        console.log(job)
 
         // Add to db
         await db.addJobApplication(job, uid)

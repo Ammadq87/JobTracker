@@ -11,8 +11,8 @@ router.get('/', async (req, res) => {
     } catch (e) {
         console.error(e)
     }
-    
-    res.render('stats', {test: 'hello stats'})
+
+    res.render('stats', {applicationStatsData: []})
 })
 
 module.exports = router

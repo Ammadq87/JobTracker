@@ -31,7 +31,7 @@ async function requireLogin(req, res, next) {
 }
 
 // Apply requireLogin globally to all routes
-app.use(requireLogin);
+// app.use(requireLogin);
 
 app.use('/auth', auth);
 app.use('/tracking', application);

@@ -1,5 +1,4 @@
 const statsDAL = require('../database/stats')
-
 class StatsController{
 
     /**

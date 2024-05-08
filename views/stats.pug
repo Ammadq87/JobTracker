@@ -1,3 +1,8 @@
+mixin diplayActionBtn(text)
+    - const funcName = text.split(' ').join('')
+    button.btn.btn-light.font-weight-bold.mr-2(onclick=`display${funcName}()` id=`display${funcName}`)= text
+    
+
 html
     head
         title Stats
@@ -7,7 +12,8 @@ html
 
         script.
             let appStatsData;
-            
+            let actions = ['AppStats', 'HeatMap', 'AppTimeline']
+
             document.addEventListener('DOMContentLoaded', function() {
                 // Get the test variable embedded in the data attribute
                 appStatsData = JSON.parse(document.querySelector('[data-applicationStatsData]').getAttribute('data-applicationStatsData'));
@@ -16,8 +22,28 @@ html
                 // You can perform any further operations with testData here
             });
 
+            function resetBtnColor(currentAction) {
+                const className = 'btn font-weight-bold mr-2 '
+                for (let i = 0; i < actions.length; i++) {
+                    if (currentAction === actions[i]) {
+                        document.getElementById('display' + actions[i]).className = className + 'btn-primary'
+                    } else {
+                        document.getElementById('display' + actions[i]).className = className + 'btn-light'
+                    }
+                }
+            }
+
+            function displayAppTimeline() {
+                resetBtnColor('AppTimeline')
+            }
+
+            function displayHeatMap() {
+                resetBtnColor('HeatMap')
+            }
+
             function displayAppStats() {
-                console.log(appStatsData);
+                resetBtnColor('AppStats')
+
                 const labels = ['Applied', 'Interview', 'Offer', 'Accepted', 'Declined', 'Rejected'];
                 const datasets = []
 
@@ -59,6 +85,15 @@ html
                                 stepSize: 1,
                                 min: 0
                             }
+                        },
+                        plugins: {
+                            title: {
+                                display: true,
+                                text: 'Application Statistics',
+                                font: {
+                                    size: 20
+                                }
+                            }
                         }
                     }
                 });
@@ -76,9 +111,16 @@ html
 
                 div.d-block.my-4.px-2(data-applicationStatsData=JSON.stringify(applicationStatsData))
                     p Welcome to your job application statistics dashboard! Here, you can track and analyze the progress of your job applications to gain valuable insights into your job search journey. Understanding your application statistics can help you make informed decisions, optimize your approach, and stay motivated throughout your job search process. 
-                    button.btn.btn-light(onclick="displayAppStats()") App Stats
+                    
+                    div#action-center.d-flex
+                        +diplayActionBtn('App Stats')
+                        +diplayActionBtn('Heat Map')
+                        +diplayActionBtn('App Timeline')
+
                 hr
                 br
 
                 canvas#applicationStatsChart.p-2.m-4
+                    p hi
+
             
