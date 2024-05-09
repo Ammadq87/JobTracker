@@ -25,14 +25,21 @@ app.use(session({
 
 // Define the requireLogin middleware
 async function requireLogin(req, res, next) {
-    if (!req.session.user && req.path !== '/auth/login')
-        res.redirect('/auth/login');
+    if (!req.session.SessID) {
+        if (req.path !== '/auth/login' && req.path != '/auth/register')
+            res.redirect('/auth/login');
+        else if (req.path === '/auth/register')
+            res.render('register');
+        else
+            next();
+
+    }
     else
         next();
 }
 
 // Apply requireLogin globally to all routes
-// app.use(requireLogin);
+app.use(requireLogin);
 
 app.use('/auth', auth);
 app.use('/tracking', application);
