@@ -1,7 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const bcrypt = require('bcrypt');
-const redisClient = require('../lib/redis')
+const redis = require('../lib/redis')
+const uuid = require('uuid')
+
 const AuthController = require('../controllers/auth')
 
 router.get('/login', (req, res) => {
@@ -18,10 +20,13 @@ router.post('/login', async (req, res) => {
         if (response.status === 401)
             res.render('login', { response: response });
         else {
-            // Set session data in Redis with expiration (60 seconds)
-            req.session.user = response.data
+            req.session.SessID = uuid.v4()
+            await redis.set(`sessionID:${req.session.SessID}`, JSON.stringify(response.data))
+            
+            // ToDo -- change exiparation time
+            await redis.expire(`sessionID:${req.session.SessID}`, 3600)
             console.log(`log -- ${email} logged at ${new Date()}`);
-            console.log(`log -- session id: ${req.session.id}`);
+            console.log(`log -- session id: ${req.session.SessID}`);
             res.redirect('/')
         }
     } catch (e) {
@@ -29,6 +34,7 @@ router.post('/login', async (req, res) => {
         res.send('[Error] -- Could not login');
     }
 });
+
 
 router.get('/register', (req, res) => {
     res.render(

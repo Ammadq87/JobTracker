@@ -23,9 +23,10 @@ class AuthController {
             if (user.length === 0) return {status: 401, msg: 'Invalid email/password'}
     
             const passwordMatch = await bcrypt.compare(password, user[0].Password)
-    
+
+            const data = {UserID: user[0]['UserID'], Email: user[0]['Email'], FullName: user[0]['FullName']}
             if (!passwordMatch) return {status: 401, msg: 'Invalid email/password'}
-            return {status: 200, msg: 'Login Successful', data: user[0]}
+            return {status: 200, msg: 'Login Successful', data: data}
         } catch (e) {
             console.log(e)
             return {status: 500, msg: 'Internal Server Error'}

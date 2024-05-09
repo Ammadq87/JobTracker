@@ -3,29 +3,30 @@ html
         title= title
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
     
-    body
+    body(style="background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;") 
+       
+        include utils
 
-        div#navbar.d-flex.justify-content-between.border-bottom.py-2.align-items-center
-            div#logo.d-flex.justify-content-start.align-items-center
-                h4.mx-4.mb-0.font-italic trackr
-            div#actions.d-flex.justify-content-end.align-items-center
-                a.mx-4(href="/auth/login") Login Here
-
-        div.container.border.border-secondary-subtle.mt-3
+        div.container(style="width: 33%")
+            
             form.container.d-flex.flex-column.p-3(action="http://localhost:3000/auth/register", method="post")
-                h1 Register
+            
+                div.d-flex.flex-column.justify-content-center.align-items-center
+                    h1 Register
+                    h6 Please register to start tracking
+
+                br
                 
-                div.form-group
-                    input(type="email", name="email", class="form-control", placeholder="Email", required)
-                div.form-group
-                    input(type="password", name="password", class="form-control", placeholder="Password", required)
-                div.form-group
-                    input(type="password", name="cPassword", class="form-control", placeholder="Confirm Password", required)
-                div.form-group
-                    input(type="text", name="fullName", class="form-control", placeholder="Full Name", required)
-                
-                button.btn.btn-primary.mt-2.mb-2(type="submit") Register
-                a(href="/auth/login") Already registered?
+                +formInputRequired('email', 'Email', 'Enter Email', 'email')
+                +formInputRequired('password', 'Password', 'Enter new Password', 'password')
+                +formInputRequired('cpassword', 'Confirm Password', 'Confirm new Password', 'password')
+                +formInputRequired('fullname', 'Full Name', 'Enter your full name', 'text')
+
+                +primarySubmitBtn('Register')
+
+                div.d-flex.justify-content-center.align-items-center
+                    p.d-flex Already have an account? 
+                        +link("Login here", "/auth/login")
             
                 if !response
                 else if response.status === 200

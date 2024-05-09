@@ -1,14 +1,48 @@
+
 html
     head
-        title Profile
+        title trackr
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
 
-    body.d-flex
+        script.
+            const aboutMeSection = `Hi there! I'm Jane Doe, a curious soul with a passion for exploring the world around me. Whether I'm hiking through lush forests, diving into a captivating novel, or experimenting with new recipes in the kitchen, I always seek out opportunities to learn and grow.
+            I believe in the power of kindness and empathy to create positive change in the world. My goal is to make a meaningful impact, whether it's through my work, volunteering in my community, or simply lending a listening ear to those in need.
+            When I'm not busy with work or volunteering, you can usually find me enjoying a quiet evening at home with my beloved cat, Luna, or planning my next adventure abroad.
+            Feel free to reach out if you'd like to connect or share your own stories of adventure and discovery!`
+
+    body.d-flex(style="background-color: #121212; color: white")
 
         include layouts/sidebar
 
-        div.d-flex.flex-column.align-items-center.mt-4 
-            h1.font-bold Profile
+        div.d-flex.flex-column.align-items-center.p-4(style="width: 100%;") 
+            
+            div#content.d-flex(style="width: 100%; height: 100%")
 
-           
+                #profileSection.d-flex.flex-column.align-items-center(style="width: 100%")
+
+                    #banner.d-flex.p-4.mb-4.justify-content-center.align-items-center(style="width: 60%; background-color: #212121; border-radius: 10px;")
+                        img.mx-2(src=`${pfpLink}`, alt="", style="width: 128px; height: 128px; border-radius: 50%")
+                        #personalInfo.mx-2
+                            h1= profile.FullName
+                            h6 Assoicative Director of Accounting @ BMO • Finance
+                            h6 Toronto, ON
+                            button.btn.btn-primary.d-flex.p-3.align-items-center.justify-content-center.font-weight-bold(style="width: 100%; height: 24px; font-size: 16px") ✉️ Send message
+                            //- #msgBox.d-flex.justify-content-between.align-items-center(style="height: 32px")
+                                h6 Toronto, ON
+                                button.btn.btn-primary.d-flex.align-items-center.justify-content-center(style="width: 25%") ✉️
+
+                    //- div#hr(style="width: 100%; height: 1px; background-color: #FE6B68")
+
+                    #profileSect.d-flex.flex-column.justify-content-center.align-items-start(style="width: 60%;")
+                        #aboutMe.d-flex.flex-column.p-4.my-4(style="width: 100%; background-color: #212121; border-radius: 10px;")
+                            h3 About Me 
+                            p Hi there! I'm Jane Doe, a curious soul with a passion for exploring the world around me. Whether I'm hiking through lush forests, diving into a captivating novel, or experimenting with new recipes in the kitchen, I always seek out opportunities to learn and grow.
+
+                        #activity.d-flex.p-4.my-4(style="width: 100%; background-color: #212121; border-radius: 10px;")
+                            h3 My Activity
+
+                        #experience.d-flex.p-4.my-4(style="width: 100%; background-color: #212121; border-radius: 10px;")
+                            h3 My Experience
+
+                    br

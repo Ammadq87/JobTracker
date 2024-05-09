@@ -1,22 +1,18 @@
 mixin custom_link(txt)
-    a.mx-4.text-secondary.my-2(href=txt.substring(2), style="font-weight: 400;")= txt
+    .d-block.mb-1(style="width: 140px; ")
+        a.d-block.px-4.py-2.font-weight-bold(href=txt.substring(2), style="font-weight: 400; color: white; width: fit-content")= txt
 
-div#navbar.d-flex.flex-column.border-right(style="width: 200px;")  
+- const pfpLink = 'https://preview.redd.it/best-boy-and-best-girl-of-season-7-my-pfp-says-it-v0-6x9yfkhtlswa1.jpg?width=640&crop=smart&auto=webp&s=14c2b3e0dcb3a36e9744a8a14793ff0a9294eacf'
 
-    h2.my-4.mx-4.font-italic trackr
+div#navbar.d-flex.flex-column.p-2.py-4(style="width: fit-content;")  
 
-    div#links.d-flex.flex-column.align-items-center(style="width: 100%;")
+    div.d-flex.flex-column.justify-content-start.align-items-center.py-4(style="width: 100%; height: 100%; background-color: #212121; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); border: none")
 
-        div.sep1.d-flex.flex-column.justify-content-start.align-items-start.py-2.border-top(style="width: 100%;")
-            +custom_link('🏠 feed')
-            +custom_link('📊 stats')
-            +custom_link('📒 tracking')
-    
-        div.sep2.d-flex.flex-column.justify-content-start.align-items-start.py-2.border-top.border-bottom(style="width: 100%;")
-            +custom_link('📁 docs')
-            +custom_link('👾 profile')
+        a.d-flex(href="http://localhost:3000/profile") 
+            img.mx-4.my-4(src=`${pfpLink}`, alt="", style="width: 64px; height: 64px; border-radius: 50%")
 
-    div(style="height: 100%;")
-
-    div#actions.py-2.d-flex.border-top(style="width: 100%;")
-        +custom_link('✖️ sign-out')
+        +custom_link('🏠 Feed')
+        +custom_link('📊 Stats')
+        +custom_link('📒 Tracking')
+        +custom_link('📁 Docs')
+        +custom_link('🔔 Alerts')

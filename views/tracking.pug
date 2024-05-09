@@ -26,15 +26,13 @@ html(lang="en")
     link(rel="stylesheet" href="https://cdn.datatables.net/1.10.24/css/dataTables.bootstrap4.min.css")
   
     script.
-
-
         function addStatusValues(defaultText) {
             const statuses = ['Applied', 'Interview', 'Offer', 'Accepted', 'Rejected', 'Declined']
 
             const StatusSelect = document.getElementById("StatusSelect")
             const CurrentStatusOption = document.getElementById("CurrentStatus")
             CurrentStatusOption.value = statuses.indexOf(defaultText)
-            CurrentStatusOption.text = defaultText
+            CurrentStatusOption.text = defaultText 
 
 
             statuses.forEach((s, i) => {
@@ -73,55 +71,52 @@ html(lang="en")
             }
         }
 
-  body.d-flex
+  body.d-flex(style="background-color: #121212; color: white")
     include layouts/sidebar
-    
+    include utils
     div.d-flex.flex-column.align-items-center(style="width: 100%; height: 100vh;") 
 
-        div.d-block.align-items-center.border.p-2.mt-4(style="width: 95%;") 
-            h2.text-start 🎯 Your Applications 
+        div.d-block.align-items-center.p-2.px-4.mt-4(style="width: 95%; background-color: #212121; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); border: none;") 
+            
+            div.mt-4.py-4.text-start.border-bottom
+                h2 🎯 Your Applications
             hr
-            div.d-block.my-4.p-2
-                h5 New Application
-                p Click below to add a job or a new contact 
-                div.d-flex.justify-content-start
 
-                    button.btn.btn-light.font-weight-bold.border(type="button", data-toggle="modal", data-target="#NewAppModalForm") New App +
-                    button.btn.btn-light.mx-4.font-weight-bold.border(style="width: 128px" disabled) Contact +
-            hr
+            div.text-start
+                button.btn.font-weight-bold(type="button", data-toggle="modal", data-target="#NewAppModalForm", style="background-color: #FE6B68; color: white; width: 250px") New App +
+
             br
             table#applications.table.table-striped.my-4.p-2
-                thead 
+                thead
                     tr
-                        th Role 
-                        th Company 
-                        th Status 
-                        th Date Applied
+                        th(style="color: white") Role 
+                        th(style="color: white") Company 
+                        th(style="color: white") Status 
+                        th(style="color: white") Date Applied
                 tbody
 
                     if jobs
                         each job, i in jobs 
                             tr 
-                                td= job.Role 
-                                td= job.Company 
-                                td= job.Status 
+                                td(style="color: white")= job.Role 
+                                td(style="color: white")= job.Company 
+                                td(style="color: white")= job.Status 
                                 td 
                                     div.d-flex.justify-content-between
                                         if job.DateApplied 
-                                            p= `${new Date(job.DateApplied).toISOString().split('T')[0]}`
+                                            p(style="color: white")= `${new Date(job.DateApplied).toISOString().split('T')[0]}`
                                             div.d-flex
-                                                button.btn.btn-light(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
-                                                button.btn.btn-light(type="button", onclick=`deleteJob(${JSON.stringify(job)})` ) ❌
-
-        br
+                                                button.btn(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
+                                                button.btn(type="button", onclick=`deleteJob(${JSON.stringify(job)})` ) ❌
+            br
 
         //- New Application modal 
         .modal.fade(id="NewAppModalForm", tabindex="-1", role="dialog", aria-labelledby="NewAppModlLbl", aria-hidden="true", data-backdrop="static")
           .modal-dialog.modal-dialog-centered(role="document")
-            .modal-content
+            .modal-content(style="background-color: #212121; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);")
               .modal-header
                 h5.modal-title#NewAppModlLbl ✨New Job Application✨
-                button.close(type="button", data-dismiss="modal", aria-label="Close")
+                button.close(type="button", data-dismiss="modal", aria-label="Close" style="color: white")
                   span(aria-hidden="true") &times;
               .modal-body
                 p Please enter the required information below about your latest job application.
@@ -134,19 +129,17 @@ html(lang="en")
                     +formInput('Date_Applied', 'date', false, '')
 
                     hr
-                    button.btn.btn-primary.font-weight-bold(type="submit") Add
+                    +primarySubmitBtn('Add')
         
         //- Job Edit modal 
         .modal.fade(id="JobEditModal", tabindex="-1", role="dialog", aria-labelledby="JobEditModalLbl", aria-hidden="true", data-backdrop="static")
           .modal-dialog.modal-dialog-centered(role="document")
-            .modal-content
+            .modal-content(style="background-color: #212121; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);")
               .modal-header
                 h5.modal-title#JobEditModalLbl Job Edit
-                button.close(type="button", data-dismiss="modal", aria-label="Close")
+                button.close(type="button", data-dismiss="modal", aria-label="Close" style="color: white")
                   span(aria-hidden="true") &times;
               .modal-body
-                p Edit
-
                 form(action="http://localhost:3000/tracking/edit" method="post")
                     hr
                     br
@@ -173,7 +166,7 @@ html(lang="en")
                     hr
                     div.d-flex.flex-row.justify-content-end
                         button.btn.btn-light.font-weight-bold(data-dismiss="modal" style="width: 75px") Cancel
-                        button.btn.btn-primary.font-weight-bold.ml-2(type="submit" style="width: 75px") Save
+                        button.btn.font-weight-bold.ml-2(type="submit" style="width: 75px; background-color: #FE6B68; color: white") Save
 
 
         div(style="height: 100%")

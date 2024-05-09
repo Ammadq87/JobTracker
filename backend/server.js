@@ -12,6 +12,7 @@ app.set('view engine', 'pug');
 const auth = require('./routes/auth');
 const application = require('./routes/tracking');
 const stats = require('./routes/stats')
+const profile = require('./routes/profile')
 
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
@@ -36,6 +37,7 @@ async function requireLogin(req, res, next) {
 app.use('/auth', auth);
 app.use('/tracking', application);
 app.use('/stats', stats)
+app.use('/profile', profile)
 
 // Default route
 app.get('/', (req, res) => {

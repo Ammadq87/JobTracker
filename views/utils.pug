@@ -1,0 +1,20 @@
+
+//- Links
+mixin link(text, url)
+    a.px-1(href=url, style="color: #FE6B68;")= text
+
+//- Buttons
+mixin primarySubmitBtn(text)
+    button.btn.mt-4.mb-2.font-weight-bold(type="submit", style="background-color: #FE6B68; color: white")= text
+
+//- Form Input
+mixin formInputRequired(htmlFor, text, placeHolder, inputType)
+    div.form-group
+        +formLabelRequired(htmlFor, text)
+        input(type=inputType, name=htmlFor, class="form-control", placeholder=placeHolder, required)
+
+//- Labels
+mixin formLabelRequired(htmlFor, p)
+    label.d-flex.mb-0(for=htmlFor)
+        p.mb-1= p 
+        span(style="color: #FE6B68;") *
