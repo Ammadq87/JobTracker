@@ -1,0 +1,32 @@
+
+mixin JobApplicationModal()
+    .modal.fade(id="NewAppModalForm", tabindex="-1", role="dialog", aria-labelledby="NewAppModlLbl", aria-hidden="true", data-backdrop="static")
+        .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content(style="background-color: #212121; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);")
+                .modal-header
+                    h5.modal-title#NewAppModlLbl ✨New Job Application✨
+                    button.close(type="button", data-dismiss="modal", aria-label="Close")
+                        span(aria-hidden="true") &times;
+                .modal-body
+                    p Please enter the required information below about your latest job application.
+
+                    form(action="http://localhost:3000/tracking/manual" method="post")
+                        hr
+                        br
+                        
+
+                        div.form-group.d-flex
+                            span(style="color: red;") *
+                            label(for="Company" style="width: 50%") Company
+                            input#CompanyEdit(name="Company" type="text" class="form-control" style="width: 50%;" required)
+                        div.form-group.d-flex
+                            span(style="color: red;") *
+                            label(for="Role" style="width: 50%") Role
+                            input#RoleEdit(name="Role" type="text" class="form-control" style="width: 50%;" required)
+                        div.form-group.d-flex
+                            label(for="DateApplied" style="width: 50%") Date Applied
+                            input#DateAppliedEdit(name="DateApplied" type="date" class="form-control" style="width: 50%;")
+
+                        hr
+                        div.d-flex.flex-row.justify-content-end
+                            button.btn.font-weight-bold.ml-2(type="submit" style="width: 75px; background-color: #FE6B68; color: white") Add

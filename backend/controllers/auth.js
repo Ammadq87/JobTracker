@@ -4,7 +4,6 @@ class AuthController {
     static async signUp (email, password, fullName) {
         try {
             const isUnqiueEmail = await AuthDAL.getUserByEmail(email)
-            console.log(isUnqiueEmail)
             if (isUnqiueEmail[0] && isUnqiueEmail[0]['Found'] !== 0)
                 return {status: 400, msg: 'Email is taken.'}
     

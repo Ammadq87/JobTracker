@@ -1,0 +1,26 @@
+mixin JobEditModal()
+    .modal.fade(id="JobEditModal", tabindex="-1", role="dialog", aria-labelledby="JobEditModalLbl", aria-hidden="true", data-backdrop="static")
+        .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content(style="background-color: #212121; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);")
+                .modal-header
+                    h5.modal-title#JobEditModalLbl Job Edit
+                    button.close(type="button", data-dismiss="modal", aria-label="Close" style="color: white")
+                        span(aria-hidden="true") &times;
+                .modal-body
+                    form#JobEditModalForm(action="http://localhost:3000/tracking/edit" method="post")
+                        br
+                        
+                        div#JobEditModalDiv
+                            div.d-none
+                                label(for="JobID" style="width: 50%") JobID
+                                input#JobIdEdit(name="JobID" type="text" class="form-control" style="width: 50%;")
+                       
+                        div.form-group.d-flex
+                            label(for="StatusID" style="width: 50%") Status
+                            select#StatusSelect.form-select.text-center.border(name="StatusID" aria-label="Application Status values" style="width: 50%; color: black;")
+                                option#CurrentStatus(selected) 
+
+                        hr
+                        div.d-flex.flex-row.justify-content-end
+                            button.btn.btn-light.font-weight-bold(data-dismiss="modal" style="width: 75px") Cancel
+                            button.btn.font-weight-bold.ml-2(type="submit" style="width: 75px; background-color: #FE6B68; color: white") Save

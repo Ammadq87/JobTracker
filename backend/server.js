@@ -14,6 +14,7 @@ const application = require('./routes/tracking');
 const stats = require('./routes/stats')
 const profile = require('./routes/profile')
 
+app.use(express.static('views'));
 app.use(express.urlencoded({ extended: false }));
 app.use(express.json());
 app.use(cookieParser());
