@@ -3,11 +3,33 @@ include utils
 html
     +head('Trackr')
 
-    body.d-flex
-
+    body.d-flex(style="background-color: #121212; color: white")
+        
         include layouts/sidebar
+        
+        div.d-flex.flex-column.align-items-center(style="width: 100%; height: 100vh;") 
+            
+            div.d-block.align-items-center.p-2.px-4.my-4(style="width: 95%; max-width: 95%; background-color: #212121; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); border: none;") 
+            
+                div.mt-4.pt-4.text-start
+                    h2.pb-4.border-bottom 🔐 Important Documentation
+                    p Organize your documents here by creating categories and storing application related files here. Add any important docs that pertain to your application such as resumes, cover letters, transcripts, etc. Keep track and update them for every application to be as relevant to the job description as possible
+                    button.btn.font-weight-bold(type="button", data-toggle="modal", data-target="#NewAppModalForm", style="background-color: #FE6B68; color: white; width: 250px") New Category
+                br
 
-        div.d-flex.flex-column.align-items-center.mt-4 
-            h1.font-bold Docs
+            //- Example category look
+            div.d-block.align-items-center.p-2.px-4.my-4(style="width: 95%; max-width: 95%; background-color: #212121; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); border: none;") 
+                h2.my-4.pb-3.border-bottom Resumes
 
-           
+                div#carasoul.d-flex
+
+                    div#card.d-flex.flex-column.justify-content-center.align-items-center.my-4(style="width: 200px; height: 250px;")
+                        img(src="https://upload.wikimedia.org/wikipedia/commons/9/90/Resume_logo.jpeg", alt="", style="width: 150px; height: 200px; border-radius: 5px")
+                        p.text-wrap.text-center.pt-2(style="width: 200px") John_Smith_Resume_2024
+
+                    div#card.d-flex.flex-column.justify-content-center.align-items-center.my-4(style="width: 200px; height: 250px;")
+                        img(src="https://upload.wikimedia.org/wikipedia/commons/9/90/Resume_logo.jpeg", alt="", style="width: 150px; height: 200px; border-radius: 5px")
+                        p.text-wrap.text-center.pt-2(style="width: 200px") John_Smith_Resume_2024
+        
+                button.btn.font-weight-bold.mb-4(type="button", data-toggle="modal", data-target="#NewAppModalForm", style="background-color: #FE6B68; color: white; width: 250px") Add
+                br

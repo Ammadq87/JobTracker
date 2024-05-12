@@ -13,6 +13,7 @@ const auth = require('./routes/auth');
 const application = require('./routes/tracking');
 const stats = require('./routes/stats')
 const profile = require('./routes/profile')
+const docs = require('./routes/docs')
 
 app.use(express.static('views'));
 app.use(express.urlencoded({ extended: false }));
@@ -46,6 +47,7 @@ app.use('/auth', auth);
 app.use('/tracking', application);
 app.use('/stats', stats)
 app.use('/profile', profile)
+app.use('/docs', docs)
 
 // Default route
 app.get('/', (req, res) => {
