@@ -7,10 +7,7 @@ const uuid = require('uuid')
 const AuthController = require('../controllers/auth')
 
 router.get('/login', (req, res) => {
-    res.render(
-        'login', 
-        { title: 'Welcome' }
-    );
+    res.render('login');
 });
 
 router.post('/login', async (req, res) => {
@@ -37,10 +34,7 @@ router.post('/login', async (req, res) => {
 
 
 router.get('/register', (req, res) => {
-    res.render(
-        'register',
-        { title: 'Yippie!' }
-    );
+    res.render('register');
 });
 
 router.post('/register', async (req, res) => {

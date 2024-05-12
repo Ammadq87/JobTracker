@@ -2,12 +2,10 @@ mixin diplayActionBtn(text)
     - const funcName = text.split(' ').join('')
     button.btn.btn-light.font-weight-bold.mr-2(onclick=`display${funcName}()` id=`display${funcName}`)= text
     
+include utils
 
 html
-    head
-        title Stats
-        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
-        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css")
+    +head('Trackr')
         script(src="https://cdn.jsdelivr.net/npm/chart.js")            
     body.d-flex
 

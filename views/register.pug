@@ -1,17 +1,16 @@
+include utils
+
 html
-    head
-        title= title
-        link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
+    +head('Yay!')
     
     body(style="background-color: #121212; color: white; display: flex; justify-content: center; align-items: center; height: 100vh;") 
        
-        include utils
-
         div.container(style="width: 33%")
             
             form.container.d-flex.flex-column.p-3(action="http://localhost:3000/auth/register", method="post")
             
                 div.d-flex.flex-column.justify-content-center.align-items-center
+                    img(src="/TrackrLogoV4.png", alt="", style="background: transparent; transform: scale(0.75)")
                     h1 Register
                     h6 Please register to start tracking
 
