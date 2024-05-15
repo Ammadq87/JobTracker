@@ -11,21 +11,21 @@ class DocsController {
     static async createNewCategory(req) {
         try {
 
-            const Name = req.body.Name
+            const Name = req.body.Name.trim()
             if (Name.length > 255) {
-                console.log(`Category name too long.`)
+                console.log(`log -- Category name too long.`)
                 return {status: 400, msg: `Category name too long.`}
             }
 
             const uID = await Utils.getUID(req)
-            const doesCategoryExist = await DocsDAL.doesCategoryExist(uID, req.body.Name)
+            const doesCategoryExist = await DocsDAL.doesCategoryExist(uID, Name)
             if (doesCategoryExist[0] && doesCategoryExist[0]['Found'] !== 0) {
-                console.log(`Category '${req.body.Name}' already exists. Please choose a different name.`)
-                return {status: 400, msg: `Category '${req.body.Name}' already exists. Please choose a different name.`}
+                console.log(`log -- Category '${Name}' already exists. Please choose a different name.`)
+                return {status: 400, msg: `Category '${Name}' already exists. Please choose a different name.`}
             }
 
-            await DocsDAL.createNewCategory(uID, req.body.Name);
-            console.log('Category successfully created.')
+            await DocsDAL.createNewCategory(uID, Name);
+            console.log('log -- Category successfully created.')
             return {status: 200, msg: 'Category successfully created.'}
         } catch (e) {
             console.error(e)

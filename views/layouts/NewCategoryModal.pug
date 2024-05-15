@@ -1,6 +1,5 @@
 
-mixin NewCategoryModal(statusMsg)
-    - console.log(statusMsg)
+mixin NewCategoryModal()
     .modal.fade(id="NewCategoryModalForm", tabindex="-1", role="dialog", aria-labelledby="NewCategoryModalLbl", aria-hidden="true", data-backdrop="static")
         .modal-dialog.modal-dialog-centered(role="document")
             .modal-content(style="background-color: #212121; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);")
@@ -11,11 +10,11 @@ mixin NewCategoryModal(statusMsg)
                 .modal-body
 
                     form(action="http://localhost:3000/docs/newCategory", method="post") 
-                        p Please enter the required information below about your latest job application.
+                        p You can place documents related to this category here. 
 
                         div.form-group.d-flex
                             div.d-flex(style="width: 50%")
-                                label(for="Name" style="") Company
+                                label(for="Name" style="") Category Name
                                 span.ml-1(style="color: #FE6B68;") *
                             input(name="Name" type="text" class="form-control" style="width: 50%;" required)
 

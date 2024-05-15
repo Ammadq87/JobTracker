@@ -9,6 +9,13 @@ mixin head(title)
         link(rel="stylesheet", href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css")
         link(rel="icon", href="/images/faviconInvertedV1.png", type="image/x-icon")
 
+//- Footer Notification
+mixin footerNotification(notificationObj)
+    .row.footer
+        .col.text-center
+            div(data-notification=JSON.stringify(notificationObj))
+            div#notifications.d-flex.flex-row.justify-content-end(style="width: 95%")
+
 //- Links
 mixin link(text, url)
     a.px-1(href=url, style="color: #FE6B68;")= text

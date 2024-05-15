@@ -3,6 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const cookieParser = require('cookie-parser');
 const session = require('express-session');
+const flash = require('connect-flash') 
 
 require('dotenv').config();
 
@@ -22,8 +23,9 @@ app.use(cookieParser());
 app.use(session({
     secret: 'secret-key',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: true
 }));
+app.use(flash())
 
 // Define the requireLogin middleware
 async function requireLogin(req, res, next) {

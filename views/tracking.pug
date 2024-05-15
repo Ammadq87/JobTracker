@@ -11,49 +11,56 @@ html(lang="en")
     include layouts/JobApplicationModal
     include layouts/JobEditModal
 
-    div.d-flex.flex-column.align-items-center(style="width: 100%; height: 100vh;") 
 
-        div.d-block.align-items-center.p-2.px-4.my-4(style="width: 95%; max-width: 95%; background-color: #212121; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); border: none;") 
-            
-            div.mt-4.py-4.text-start.border-bottom
-                h2 🎯 Your Applications
-            br
+    .container-fluid.d-flex.flex-column.min-vh-100
+        .row.flex-grow-1 
+            .col 
+                div.d-block.align-items-center.p-2.px-4.my-4(style="width: 95%; max-width: 95%; background-color: #212121; border-radius: 5px; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5); border: none;") 
+                    
+                    div.mt-4.py-4.text-start.border-bottom
+                        h2 🎯 Your Applications
+                    br
 
-            div.text-start
-                button.btn.font-weight-bold(type="button", data-toggle="modal", data-target="#NewAppModalForm", style="background-color: #FE6B68; color: white; width: 250px") New App +
-            br
+                    div.text-start
+                        button.btn.font-weight-bold(type="button", data-toggle="modal", data-target="#NewAppModalForm", style="background-color: #FE6B68; color: white; width: 250px") New App +
+                    br
 
-            table#applications.table.table-striped.my-4.p-2
-                thead
-                    tr
-                        th(style="color: white") Role 
-                        th(style="color: white") Company 
-                        th(style="color: white") Status 
-                        th(style="color: white") Date Applied
-                tbody
-
-                    if jobs
-                        each job, i in jobs 
+                    table#applications.table.table-striped.my-4.p-2
+                        thead
                             tr
-                                td(style="color: white")= job.Role 
-                                td(style="color: white")= job.Company 
-                                td(style="color: white")= job.Status 
-                                td 
-                                    div.d-flex.justify-content-between
-                                        if job.DateApplied 
-                                            p(style="color: white")= `${new Date(job.DateApplied).toISOString().split('T')[0]}`
-                                            div.d-flex
-                                                button.btn(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
-                                                button.btn(type="button", onclick=`deleteJob(${JSON.stringify(job)})` ) ❌
-            br
+                                th(style="color: white") Role 
+                                th(style="color: white") Company 
+                                th(style="color: white") Status 
+                                th(style="color: white") Date Applied
+                        tbody
 
-            //- New Application modal 
-            +JobApplicationModal()
+                            if jobs
+                                each job, i in jobs 
+                                    tr
+                                        td(style="color: white")= job.Role 
+                                        td(style="color: white")= job.Company 
+                                        td(style="color: white")= job.Status 
+                                        td 
+                                            div.d-flex.justify-content-between
+                                                if job.DateApplied 
+                                                    p(style="color: white")= `${new Date(job.DateApplied).toISOString().split('T')[0]}`
+                                                    div.d-flex
+                                                        button.btn(type="button", data-toggle="modal", data-target="#JobEditModal" onclick=`editClick(${JSON.stringify(job)})` ) ✏️
+                                                        button.btn(type="button", onclick=`deleteJob(${JSON.stringify(job)})` ) ❌
+                    br
 
-            //- Job Edit modal
-            +JobEditModal()
+                    //- New Application modal 
+                    +JobApplicationModal()
 
-            br
+                    //- Job Edit modal
+                    +JobEditModal()
+
+                    br
+
+        //- .row.footer
+        //-         .col.text-center
+        //-             div(data-docsData=JSON.stringify(docsData))
+        //-             div#notifications.d-flex.flex-row.justify-content-end(style="width: 95%")
 
   //- JQuery
   script(src="https://code.jquery.com/jquery-3.6.0.min.js")
