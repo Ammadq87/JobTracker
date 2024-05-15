@@ -1,0 +1,24 @@
+
+mixin NewCategoryModal(statusMsg)
+    - console.log(statusMsg)
+    .modal.fade(id="NewCategoryModalForm", tabindex="-1", role="dialog", aria-labelledby="NewCategoryModalLbl", aria-hidden="true", data-backdrop="static")
+        .modal-dialog.modal-dialog-centered(role="document")
+            .modal-content(style="background-color: #212121; box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);")
+                .modal-header
+                    h5.modal-title#NewCategoryModalLbl ✨New Document Category✨
+                    button.close(type="button", data-dismiss="modal", aria-label="Close", style="color: white")
+                        span(aria-hidden="true") &times;
+                .modal-body
+
+                    form(action="http://localhost:3000/docs/newCategory", method="post") 
+                        p Please enter the required information below about your latest job application.
+
+                        div.form-group.d-flex
+                            div.d-flex(style="width: 50%")
+                                label(for="Name" style="") Company
+                                span.ml-1(style="color: #FE6B68;") *
+                            input(name="Name" type="text" class="form-control" style="width: 50%;" required)
+
+                        div.d-flex.flex-row.justify-content-end
+                            p= statusMsg
+                            button.btn.font-weight-bold.ml-2(type="submit" style="width: 75px; background-color: #FE6B68; color: white") Add
